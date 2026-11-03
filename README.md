@@ -5,6 +5,10 @@ modelos de IA **locales y pequeños** (Ollama, APIs compatibles con OpenAI, etc.
 La IA **no genera imágenes**: genera *paletas de color* y *matrices numéricas*
 de píxeles que el editor valida, previsualiza y aplica al lienzo.
 
+<p align="center">
+  <img src="docs/images/preview-interfaz.png" alt="Pixel-IA Studio - Interfaz Principal" width="100%" />
+</p>
+
 ```
 paleta = ["#000000", "#ffffff", "#00ff00"]
 matriz = [[0, 1, 1, 0], [1, 2, 2, 1], ...]   // -1 = transparencia
@@ -33,6 +37,7 @@ Otros scripts:
 | `npm run test:all` | Unitarios + E2E |
 | `npm run test:ai` | Prueba la IA contra un Ollama real (opcional) |
 | `npm run screenshot` | Genera `test/artifacts/interfaz.png` |
+| `npm run previews` | Genera capturas de alta resolución para la documentación (`docs/images/`) |
 
 ## 2. Distribución de la interfaz
 
@@ -88,8 +93,9 @@ Con la herramienta de selección se arrastra un marco rectangular. Arrastrar
 selección flotante que se puede mover); `Enter` la fusiona con la capa activa y
 `Esc` cancela el movimiento. `Ctrl+C/X/V` copian, cortan y pegan regiones.
 
-## 4. Paletas
+## 4. Paletas y Selector de Color
 
+- **Selector de color profesional**: herramienta integrada con gradiente visual de matiz/saturación/luminosidad (HSV), deslizadores numéricos RGB/HSV, barra de canal alfa para transparencia, visor hexadecimal directo con botón para copiar, chips de colores preestablecidos y cuentagotas nativo del sistema.
 - **Formatos**: JSON (`["#rrggbb", ...]`), HEX (una línea por color) y GPL
   (GIMP Palette). La importación detecta el formato automáticamente.
 - El color se edita con HEX + alfa; **editar un color cambia todos los píxeles
@@ -99,6 +105,10 @@ selección flotante que se puede mover); `Enter` la fusiona con la capa activa y
 - **Eliminar un color** deja transparentes sus píxeles y reordena los índices.
 - La casilla **Transparente** activa el borrador (la transparencia es `-1`,
   no un color de la paleta).
+
+<p align="center">
+  <img src="docs/images/preview-color-picker.png" alt="Selector de Color Integrado" width="80%" />
+</p>
 
 ## 5. Integración con IA local
 
@@ -134,6 +144,27 @@ defecto, configurable hasta 24×24) cuando el lienzo supera 24×24:
 - Si el resultado queda plano (un solo color dominante), la app lo advierte:
   es límite del modelo, y conviene probar un modelo más capaz, bloques de 8×8
   o un lienzo menor.
+
+### Inpainting y Selección de Región
+
+Permite seleccionar un área rectangular específica del lienzo para que la IA modifique o genere contenido exclusivamente dentro de esa región, conservando intacto el resto del sprite. La IA recibe el contexto circundante de los píxeles adyacentes y su paleta para asegurar una integración visual perfecta.
+
+<p align="center">
+  <img src="docs/images/preview-inpainting.png" alt="Inpainting y Selección de Región" width="100%" />
+</p>
+
+### Reescalado Piramidal para Sprites Grandes (≥ 64×64)
+
+Para sprites complejos y de alta resolución (como la espada 64×64), el editor incorpora un algoritmo de generación piramidal:
+1. Generación de la silueta base y composición en baja resolución (16×16 o 32×32).
+2. Reescalado sin pérdida al tamaño objetivo con suavizado de bordes (*pixel-art edge smoothing*).
+3. Refinamiento iterativo de detalles, sombreado y textura preservando la estructura global.
+
+### Formato String Grid / ASCII y Esquema Estricto
+
+- **Ahorro de ~70% de tokens**: soporte para representación por cadenas ASCII (un carácter por píxel) que reduce drásticamente el consumo de tokens y el tiempo de respuesta frente a arrays numéricos JSON.
+- **Esquema JSON Estricto**: compatibilidad nativa con `response_format: json_schema` (OpenAI / Ollama) para forzar respuestas 100% conformes y libres de alucinaciones sintácticas.
+- **Recuperación parcial**: si la generación se corta por límite de tokens o interrupción de red, el sistema rescata las filas completadas en lugar de descartar todo el trabajo.
 
 Notas:
 
@@ -171,7 +202,7 @@ Notas:
   suavizado (pixel-perfect) o solo la capa activa.
 - **Exportar proyecto**: mismo JSON, para compartir o versionar.
 - Ejemplos incluidos en [`examples/`](examples/): paletas (`gameboy.gpl`,
-  `pico8.json`, `cga.hex`) y proyectos de prueba (`cofre-8x8.pixelia.json`,
+  `pico8.json`, `cga.hex`) y proyectos de prueba (`espada-64x64.pixelia.json`, `cofre-8x8.pixelia.json`,
   `corazon-16x16.pixelia.json`).
 
 ## 7. Estructura del código
@@ -195,10 +226,11 @@ Decisiones técnicas relevantes en [`docs/DECISIONS.md`](docs/DECISIONS.md).
 ## 8. Pruebas
 
 ```bash
-npm test            # 47 tests unitarios (core, validador IA, streaming, bloques)
-npm run test:e2e    # 31 tests E2E (Playwright) sobre la build de producción
+npm test            # 55 tests unitarios (core, validador IA, streaming, bloques, reescalado, inpainting)
+npm run test:e2e    # 34 tests E2E (Playwright) sobre la build de producción
 npm run test:ai     # generación real contra Ollama (requiere servidor en marcha)
 npm run test:ai:tiles  # generación por bloques real (32x32) contra Ollama
+npm run previews    # genera las capturas de alta resolución para la documentación
 ```
 
 Los E2E cubren los criterios de aceptación: dibujo, borrado, relleno, figuras,

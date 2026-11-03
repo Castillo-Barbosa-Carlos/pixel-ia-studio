@@ -13,7 +13,8 @@
     "test:ai": "node test/ai-live.ts",
     "test:ai:tiles": "node test/ai-live-tiles.ts",
     "test:all": "npm run test && npm run test:e2e",
-    "screenshot": "vite build && node test/screenshot.mjs"
+    "screenshot": "vite build && node test/screenshot.mjs",
+    "previews": "vite build && node test/generate-previews.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

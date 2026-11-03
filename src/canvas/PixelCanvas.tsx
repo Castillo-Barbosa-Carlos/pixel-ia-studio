@@ -374,6 +374,7 @@ export function PixelCanvas(): JSX.Element {
         };
       },
       fit: () => fitToScreen(),
+      dispatch: (action: unknown) => dispatch(action as Parameters<typeof dispatch>[0]),
     };
     (window as unknown as Record<string, unknown>).__PIXEL_IA__ = hook;
     return () => {
