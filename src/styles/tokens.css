@@ -1,0 +1,49 @@
+/**
+ * Tokens de diseño: paleta de la interfaz, tipografía y medidas.
+ */
+:root {
+  /* Fondos */
+  --bg-app: #141419;
+  --bg-panel: #1b1b21;
+  --bg-panel-2: #222229;
+  --bg-input: #26262e;
+  --bg-hover: #2d2d37;
+  --bg-active: #34343f;
+
+  /* Bordes */
+  --border: #2e2e37;
+  --border-strong: #3d3d49;
+
+  /* Texto */
+  --text: #e9e9f0;
+  --text-muted: #9b9baa;
+  --text-faint: #6c6c7a;
+
+  /* Acentos */
+  --accent: #4da3ff;
+  --accent-strong: #2f86e8;
+  --accent-soft: rgba(77, 163, 255, 0.16);
+  --accent-ai: #b98cff;
+  --danger: #ff5c6c;
+  --danger-soft: rgba(255, 92, 108, 0.14);
+  --success: #3ecf8e;
+  --success-soft: rgba(62, 207, 142, 0.14);
+  --warning: #f5b544;
+  --warning-soft: rgba(245, 181, 68, 0.14);
+
+  /* Tipografía */
+  --font-ui: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Medidas */
+  --topbar-h: 42px;
+  --palettebar-h: 56px;
+  --statusbar-h: 28px;
+  --panel-left-w: 288px;
+  --panel-right-w: 296px;
+  --radius: 6px;
+  --radius-sm: 4px;
+
+  /* Sombra */
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}

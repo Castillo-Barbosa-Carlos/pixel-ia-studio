@@ -1,0 +1,262 @@
+/**
+ * Estructura general de la aplicación: barra superior, paleta, paneles
+ * laterales, zona de lienzo y barra de estado.
+ */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ----------------------------- topbar ------------------------------ */
+
+.topbar {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex: none;
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  padding-right: 6px;
+}
+
+.topbar__title {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.topbar__group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  border-left: 1px solid var(--border);
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+/* --------------------------- palettebar ---------------------------- */
+
+.palettebar {
+  height: var(--palettebar-h);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex: none;
+  overflow-x: auto;
+}
+
+.palettebar__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.palettebar__swatches {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  max-height: 46px;
+  overflow-y: auto;
+  padding: 2px;
+  flex: 1;
+}
+
+.palettebar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+/* --------------------------- zona principal ------------------------ */
+
+.app__main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.panel {
+  width: var(--panel-left-w);
+  background: var(--bg-panel);
+  overflow-y: auto;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel--left {
+  border-right: 1px solid var(--border);
+  width: var(--panel-left-w);
+}
+
+.panel--right {
+  border-left: 1px solid var(--border);
+  width: var(--panel-right-w);
+}
+
+.panel__section {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel__heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.panel__heading-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 3px;
+}
+
+.panel__hint {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ----------------------------- lienzo ------------------------------ */
+
+.canvas-area {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  background: var(--bg-app);
+  overflow: hidden;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.canvas--crosshair {
+  cursor: crosshair;
+}
+
+.canvas--grab {
+  cursor: grab;
+}
+
+.canvas--eyedropper {
+  cursor: cell;
+}
+
+.canvas--fill {
+  cursor: crosshair;
+}
+
+/* --------------------------- statusbar ----------------------------- */
+
+.statusbar {
+  height: var(--statusbar-h);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 12px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  flex: none;
+  overflow-x: auto;
+}
+
+.statusbar__item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.statusbar__item b {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.statusbar__spacer {
+  flex: 1;
+}
+
+.statusbar__attrs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.statusbar__attr {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+}
+
+.statusbar__attr input[type='range'] {
+  width: 70px;
+}
+
+.statusbar__ai {
+  gap: 6px;
+}
+
+.statusbar__ai--ok .dot {
+  background: var(--success);
+}
+
+.statusbar__ai--error .dot {
+  background: var(--danger);
+}
+
+.statusbar__ai--generating .dot,
+.statusbar__ai--connecting .dot {
+  background: var(--warning);
+  animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}

@@ -1,0 +1,8 @@
+GIMP Palette
+Name: Game Boy (DMG)
+Columns: 4
+#
+ 15  56  15	Color 0 - verde muy oscuro
+ 48  98  48	Color 1 - verde oscuro
+139 172  15	Color 2 - verde claro
+155 188  15	Color 3 - verde muy claro
